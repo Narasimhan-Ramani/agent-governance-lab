@@ -1,0 +1,36 @@
+{
+  "tools": [
+    {
+      "name": "get_invoice",
+      "description": "Read an invoice by invoice ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoice_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search_policy",
+      "description": "Search approved policy documents.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

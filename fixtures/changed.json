@@ -1,0 +1,65 @@
+{
+  "tools": [
+    {
+      "name": "search_policy",
+      "description": "Search approved policy documents.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_invoice",
+      "description": "Read an invoice and its payment status by invoice ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          },
+          "include_lines": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "invoice_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "issue_refund",
+      "description": "Create a refund request for later approval.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "invoice_id": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 0.01
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "invoice_id",
+          "amount",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

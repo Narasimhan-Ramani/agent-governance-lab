@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-catalogue-diff"
+version = "0.1.0"
+description = "Detect drift between approved and live MCP tool catalogues"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Narasimhan Bharatham Ramani"}]
+keywords = ["mcp", "ai-agents", "governance", "drift-detection"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[project.scripts]
+mcp-catalogue-diff = "mcp_catalogue_diff.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["mcp_catalogue_diff*"]

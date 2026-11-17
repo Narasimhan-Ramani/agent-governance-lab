@@ -1,0 +1,26 @@
+name: Bug report
+description: Report incorrect catalogue comparison behaviour
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: checkboxes
+    attributes:
+      label: Data safety
+      options:
+        - label: I confirm the fixtures contain no credentials, employer/client data, or confidential information.
+          required: true
+  - type: textarea
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Minimal sanitized fixture
+    validations:
+      required: true
