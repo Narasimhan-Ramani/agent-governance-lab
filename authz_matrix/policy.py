@@ -16,6 +16,14 @@ def authorize_refund(req: RefundRequest, order: Optional[Order],
         return Decision(False, "order does not belong to requester")
     if req.amount <= 0:
         return Decision(False, "invalid amount")
+
+    # A stale approval is not a flat denial: the approver said yes to an
+    # order state that no longer exists, so the right result is re-approval.
+    if (req.approved_amount > 0 and req.approved_at_refunded is not None
+            and req.approved_at_refunded != already_refunded):
+        return Decision(False, "approval is stale: order changed since approval",
+                        outcome="reapprove")
+
     cumulative = already_refunded + req.amount
     if cumulative > order.total:
         return Decision(False, "refund exceeds order total")

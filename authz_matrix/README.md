@@ -786,3 +786,41 @@ The repository explores small, reproducible controls for governable AI-agent sys
 The broader principle behind the lab is:
 
 > **Agents can reason about what to do. Deterministic controls still decide what they are allowed to change.**
+## Cases added from reader suggestions
+
+These two cases were suggested in the comments on the original post.
+
+### Stale approval (suggested by Rakshitha G)
+
+An approval can be valid when given and wrong by the time the agent executes.
+The request carries `approved_at_refunded`, the refunded total on the order when
+the approval was given. If the order has changed since, the service returns
+`reapprove` instead of `deny`, and changes nothing.
+
+| Approved when refunded total was | Refunded total at execution | Result |
+|---|---|---|
+| 0 | 0 | allow |
+| 0 | 300 | **reapprove** (approval is stale) |
+| 300 (new approval, covers 300 + 500) | 300 | allow |
+
+### Idempotent retry (suggested by Dishant Sharma)
+
+If the agent times out and retries the same refund, a cumulative limit alone does
+not stop it while the total stays under the limit. With an `idempotency_key`, the
+service returns the original result and refunds once.
+
+| Request | Result |
+|---|---|
+| Same key, same request, sent twice | allow, then **replay** (one refund) |
+| Same key, different request | deny |
+| No key, same ₹50 sent twice | both allowed (the gap the key closes) |
+
+### Outcomes
+
+`Decision.outcome` is one of `allow`, `deny`, `reapprove` or `replay`. A test that
+only asserts "denied" cannot tell these apart.
+
+### Still not covered
+
+Concurrent requests (two callers passing against the same remaining balance) and
+persistence of idempotency keys. This lab keeps both in memory, in one process.
